@@ -1,5 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## About
+
+This repository is created by the command:
+
+```bash
+npx create-next-app@latest react-intermediate-practice-app --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"
+```
+
 ## Getting Started
 
 First, run the development server:

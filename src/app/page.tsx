@@ -1,13 +1,8 @@
-import { Button } from '@mui/material'
-import Image from 'next/image'
+import { FC, memo } from 'react'
 
-export default function Home() {
-  return (
-    <main>
-      <Button variant='contained' color='primary'>
-        Button
-      </Button>
-      <p>aaaaa</p>
-    </main>
-  )
-}
+const Login: FC = memo(() => {
+  return <p>LOGIN Page</p>
+})
+
+Login.displayName = 'Login'
+export default Login

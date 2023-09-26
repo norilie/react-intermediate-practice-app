@@ -15,16 +15,17 @@ const TemporaryDrawer: FC<Props> = memo(props => {
     <>
       <Drawer anchor='left' open={open} onClose={onClose}>
         <Stack sx={{ width: 'auto', px: 4 }}>
-          {pages.map((page, index: number) => (
-            <Button
-              key={page.pageName}
-              onClick={() => {
-                router.push(page.pageUrl)
-                onClose()
-              }}
-            >
-              {page.pageName}
-            </Button>
+          {pages.map(page => (
+            <div key={page.id}>
+              <Button
+                onClick={() => {
+                  router.push(page.url)
+                  onClose()
+                }}
+              >
+                {page.name}
+              </Button>
+            </div>
           ))}
         </Stack>
       </Drawer>

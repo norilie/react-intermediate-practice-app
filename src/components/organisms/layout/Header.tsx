@@ -6,9 +6,9 @@ import MenuIconButton from '@/components/atoms/MenuIconButton'
 import { useRouter } from 'next/navigation'
 
 export const pages = [
-  { pageName: 'TOP', pageUrl: '/home' },
-  { pageName: 'ユーザー一覧', pageUrl: '/home/user_management' },
-  { pageName: '設定', pageUrl: '/home/setting' },
+  { id: 1, name: 'TOP', url: '/home' },
+  { id: 2, name: 'ユーザー一覧', url: '/home/user_management' },
+  { id: 3, name: '設定', url: '/home/setting' },
 ]
 const Header: FC = memo(() => {
   const [open, setOpen] = useState(false)
@@ -29,17 +29,13 @@ const Header: FC = memo(() => {
           </Typography>
           <Stack direction='row' alignItems='center' sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
             {pages.map((page, index: number) => (
-              <>
+              <div key={page.id}>
                 {index > 0 && (
-                  <Button
-                    key={page.pageName}
-                    onClick={() => router.push(page.pageUrl)}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
-                  >
-                    {page.pageName}
+                  <Button onClick={() => router.push(page.url)} sx={{ my: 2, color: 'white', display: 'block' }}>
+                    {page.name}
                   </Button>
                 )}
-              </>
+              </div>
             ))}
           </Stack>
 

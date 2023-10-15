@@ -3,17 +3,18 @@
 import PrimaryButton from '@/components/atoms/PrimaryButton'
 import { AlertProps, Card, CardContent, CardHeader, Divider, Stack, TextField } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2/'
-import { ChangeEvent, FC, SyntheticEvent, memo, useEffect, useState } from 'react'
+import { ChangeEvent, FC, SyntheticEvent, memo, useState } from 'react'
 import useAuth from './hooks/useAuth'
 import ShowMessage from '@/components/atoms/ShowMessage'
+import useStore from './hooks/useStore'
 
 const Login: FC = memo(() => {
   const { login, loading } = useAuth()
+  const { snackbar, setSnackbar } = useStore()
   const [usrId, setUsrId] = useState('')
-  const [snackbar, setSnackbar] = useState<Pick<AlertProps, 'children' | 'severity'> | null>(null)
   const onChangeUsrId = (e: ChangeEvent<HTMLInputElement>) => setUsrId(e.target.value)
   const onClickLogin = () => {
-    login(usrId, setSnackbar)
+    login(usrId)
   }
   const handleCloseSnackbar = (event?: SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {

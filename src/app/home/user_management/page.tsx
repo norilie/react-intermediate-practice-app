@@ -1,57 +1,59 @@
-import { Box, Card, CardContent, Typography } from '@mui/material'
+/* eslint-disable react-hooks/exhaustive-deps */
+'use client'
+import useAllUsers from '@/app/hooks/useAllUsers'
+import UserCard from '@/components/organisms/user/UserCard'
+import { Box, CircularProgress } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import Image from 'next/image'
-import React, { FC, memo } from 'react'
+import React, { FC, memo, useCallback, useEffect, useState } from 'react'
+import UserDetailModal from '@/components/organisms/user/UserDetailModal'
 
 const UserManagement: FC = memo(() => {
+  const { getUsers, users, loading } = useAllUsers()
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUsers()
+    }
+    fetchData()
+  }, [])
+
+  const [open, setOpen] = useState(false)
+  const handleClose = useCallback(() => {
+    setOpen(false)
+  }, [])
+  const handleClickUser = useCallback(() => {
+    setOpen(true)
+  }, [])
+
   return (
-    <Grid container p={{ xs: 1, sm: 3 }}>
-      <Grid width={260} height={260} m={1} display='flex' justifyContent='center'>
-        <Card
-          sx={{
-            width: 260,
-            display: 'flex',
-            justifyContent: 'center',
-            borderRadius: 2,
-            backgroundColor: 'white',
-            ':hover': {
-              cursor: 'pointer',
-              opacity: 0.8,
-            },
-          }}
-        >
-          <CardContent
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-            }}
-          >
-            <Box m={1}>
-              <Image
-                alt='Random image'
-                src='https://source.unsplash.com/random'
-                width={160}
-                height={160}
-                style={{
-                  borderRadius: '50%',
-                  maxWidth: '100%',
-                  height: '160px',
-                }}
+    <>
+      {loading ? (
+        <Box display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Grid container p={{ xs: 1, sm: 3 }}>
+          {users.map(user => (
+            <Grid
+              width={260}
+              height={260}
+              m={1}
+              display='flex'
+              justifyContent='center'
+              key={user.id}
+              mx='auto'
+            >
+              <UserCard
+                imageUrl='https://source.unsplash.com/random'
+                userName={user.username}
+                fullName={user.name}
+                onClick={handleClickUser}
               />
-            </Box>
-            <Typography gutterBottom variant='h5' component='div' fontWeight='bold'>
-              Hello
-            </Typography>
-            <Typography variant='body2' color='text.secondary'>
-              test
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
+            </Grid>
+          ))}
+        </Grid>
+      )}
+      <UserDetailModal open={open} onClose={handleClose} />
+    </>
   )
 })
 

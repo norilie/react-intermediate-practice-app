@@ -1,9 +1,11 @@
 'use client'
 import { AppBar, Button, Stack, Toolbar, Typography } from '@mui/material'
-import { FC, memo, useState } from 'react'
+import { FC, SyntheticEvent, memo, useState } from 'react'
 import MenuDrawer from '@/components/molecules/MenuDrawer'
 import MenuIconButton from '@/components/atoms/MenuIconButton'
 import { useRouter } from 'next/navigation'
+import useStore from '@/app/hooks/useStore'
+import ShowMessage from '@/components/atoms/ShowMessage'
 
 export const pages = [
   { id: 1, name: 'TOP', url: '/home' },
@@ -13,7 +15,14 @@ export const pages = [
 const Header: FC = memo(() => {
   const [open, setOpen] = useState(false)
   const router = useRouter()
+  const { snackbar, setSnackbar } = useStore()
 
+  const handleCloseSnackbar = (event?: SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setSnackbar(null)
+  }
   return (
     <>
       <AppBar position='static' sx={{ zIndex: 2000 }}>
@@ -43,6 +52,7 @@ const Header: FC = memo(() => {
         </Toolbar>
       </AppBar>
       <MenuDrawer onClose={() => setOpen(!open)} open={open} />
+      {!!snackbar && <ShowMessage snackbar={snackbar} onClose={handleCloseSnackbar} />}
     </>
   )
 })

@@ -10,10 +10,12 @@ import {
   TextField,
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
-import { FC, ReactElement, Ref, forwardRef, memo } from 'react'
+import { FC, ReactElement, Ref, forwardRef, memo, useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
+import { User } from '@/app/types/api/user'
 
 type Props = {
+  user: User | null
   open: boolean
   onClose: () => void
 }
@@ -26,7 +28,25 @@ const Transition = forwardRef(function Transition(
   return <Slide direction='up' ref={ref} {...props} />
 })
 const UserDetailModal: FC<Props> = memo(props => {
-  const { open, onClose: handleClose } = props
+  const { user, open, onClose: handleClose } = props
+  const [inputValue, setInputValue] = useState({
+    username: '', //ここにuseEffectの中身を書けばいい？
+    name: '',
+    email: '',
+    phone: '',
+  })
+  const handleChange = (e: { target: { name: string; value: string } }) => {
+    setInputValue({
+      ...inputValue,
+      [e.target.name]: e.target.value,
+    })
+  }
+  useEffect(() => {
+    setInputValue(prev => ({
+      ...prev,
+      ...user,
+    }))
+  }, [user])
   return (
     <Dialog onClose={handleClose} open={open} keepMounted TransitionComponent={Transition}>
       <DialogTitle variant='h6' fontWeight='bold'>
@@ -48,17 +68,20 @@ const UserDetailModal: FC<Props> = memo(props => {
           <FormControl>
             <FormLabel>名前</FormLabel>
             <TextField
+              name='username'
               variant='outlined'
-              value='norilie'
+              value={inputValue.username}
               InputProps={{ readOnly: true }}
               size='small'
+              onChange={handleChange}
             />
           </FormControl>
           <FormControl>
             <FormLabel>フルネーム</FormLabel>
             <TextField
+              name='name'
               variant='outlined'
-              value='Norihiko Sawa'
+              value={inputValue.name}
               InputProps={{ readOnly: true }}
               size='small'
             />
@@ -66,8 +89,9 @@ const UserDetailModal: FC<Props> = memo(props => {
           <FormControl>
             <FormLabel>MAIL</FormLabel>
             <TextField
+              name='email'
               variant='outlined'
-              value='12345@example.com'
+              value={inputValue.email}
               InputProps={{ readOnly: true }}
               size='small'
             />
@@ -75,8 +99,9 @@ const UserDetailModal: FC<Props> = memo(props => {
           <FormControl>
             <FormLabel>TEL</FormLabel>
             <TextField
+              name='phone'
               variant='outlined'
-              value='090-1111-2222'
+              value={inputValue.phone}
               InputProps={{ readOnly: true }}
               size='small'
             />

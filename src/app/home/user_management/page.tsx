@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import useAllUsers from '@/app/hooks/useAllUsers'
 import UserCard from '@/components/organisms/user/UserCard'
@@ -6,6 +5,7 @@ import { Box, CircularProgress } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import UserDetailModal from '@/components/organisms/user/UserDetailModal'
+import useSelectUser from '@/app/hooks/useSelectUser'
 
 const UserManagement: FC = memo(() => {
   const { getUsers, users, loading } = useAllUsers()
@@ -15,14 +15,19 @@ const UserManagement: FC = memo(() => {
     }
     fetchData()
   }, [])
+  const { onSelectUser, selectedUser } = useSelectUser()
 
   const [open, setOpen] = useState(false)
   const handleClose = useCallback(() => {
     setOpen(false)
   }, [])
-  const handleClickUser = useCallback(() => {
-    setOpen(true)
-  }, [])
+  const handleClickUser = useCallback(
+    (id: number) => {
+      console.log('id', id)
+      onSelectUser({ id, users, setOpen })
+    },
+    [onSelectUser, users]
+  )
 
   return (
     <>
@@ -43,6 +48,7 @@ const UserManagement: FC = memo(() => {
               mx='auto'
             >
               <UserCard
+                id={user.id}
                 imageUrl='https://source.unsplash.com/random'
                 userName={user.username}
                 fullName={user.name}
@@ -52,7 +58,7 @@ const UserManagement: FC = memo(() => {
           ))}
         </Grid>
       )}
-      <UserDetailModal open={open} onClose={handleClose} />
+      <UserDetailModal user={selectedUser} open={open} onClose={handleClose} />
     </>
   )
 })

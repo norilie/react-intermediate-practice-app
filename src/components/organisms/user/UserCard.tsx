@@ -3,17 +3,18 @@ import Image from 'next/image'
 import { FC, memo } from 'react'
 
 type Props = {
+  id: number
   imageUrl: string
   userName: string
   fullName: string
-  onClick: () => void
+  onClick: (id: number) => void
 }
 
 const UserCard: FC<Props> = memo(props => {
-  const { imageUrl, userName, fullName, onClick: handleClick } = props
+  const { id, imageUrl, userName, fullName, onClick: handleClick } = props
   return (
     <Card
-      onClick={handleClick}
+      onClick={() => handleClick(id)}
       sx={{
         width: 260,
         display: 'flex',

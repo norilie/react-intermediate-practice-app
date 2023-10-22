@@ -8,11 +8,11 @@ type Props = {
 }
 
 const useSelectUser = () => {
-  const [selectedUser, setSelectedUser] = useState<User | null>()
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const onSelectUser = useCallback((props: Props) => {
     const { id, users, setOpen } = props
     const targetUser = users.find(user => user.id === id)
-    if (targetUser == undefined) {
+    if (targetUser === undefined) {
       setSelectedUser(null)
     } else {
       setSelectedUser(targetUser)

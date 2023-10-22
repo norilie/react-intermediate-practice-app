@@ -6,6 +6,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import React, { FC, memo, useCallback, useEffect, useState } from 'react'
 import UserDetailModal from '@/components/organisms/user/UserDetailModal'
 import useSelectUser from '@/app/hooks/useSelectUser'
+import useLoginUser from '@/app/hooks/useLoginUser'
 
 const UserManagement: FC = memo(() => {
   const { getUsers, users, loading } = useAllUsers()
@@ -14,8 +15,10 @@ const UserManagement: FC = memo(() => {
       await getUsers()
     }
     fetchData()
-  }, [])
+  }, [getUsers])
   const { onSelectUser, selectedUser } = useSelectUser()
+  const { loginUser, isAdmin } = useLoginUser()
+  console.log(loginUser, isAdmin)
 
   const [open, setOpen] = useState(false)
   const handleClose = useCallback(() => {

@@ -1,52 +1,22 @@
-'use client'
+// 'use client'
 
-import PrimaryButton from '@/components/atoms/PrimaryButton'
-import { AlertProps, Card, CardContent, CardHeader, Divider, Stack, TextField } from '@mui/material'
-import Grid from '@mui/material/Unstable_Grid2/'
-import { ChangeEvent, FC, SyntheticEvent, memo, useState } from 'react'
-import useAuth from './hooks/useAuth'
-import ShowMessage from '@/components/atoms/ShowMessage'
-import useStore from './hooks/useStore'
+// import PrimaryButton from '@/components/atoms/PrimaryButton'
+// import { AlertProps, Card, CardContent, CardHeader, Divider, Stack, TextField } from '@mui/material'
+// import Grid from '@mui/material/Unstable_Grid2/'
+// import { ChangeEvent, FC, SyntheticEvent, memo, useState } from 'react'
+// import useAuth from './hooks/useAuth'
+// import ShowMessage from '@/components/atoms/ShowMessage'
+// import useStore from './hooks/useStore'
+import LoginCard from '@/components/organisms/login/LoginCard'
+import { FC } from 'react'
 
-const Login: FC = memo(() => {
-  const { login, loading } = useAuth()
-  const { snackbar, setSnackbar } = useStore()
-  const [usrId, setUsrId] = useState('')
-  const onChangeUsrId = (e: ChangeEvent<HTMLInputElement>) => setUsrId(e.target.value)
-  const onClickLogin = () => {
-    login(usrId)
-  }
-  const handleCloseSnackbar = (event?: SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return
-    }
-    setSnackbar(null)
-  }
+const Login: FC = () => {
   return (
     <>
-      <Grid container display='flex' justifyContent='center' alignItems='center' minHeight='100vh'>
-        <Grid width={400} p={2}>
-          <Card sx={{ borderRadius: 1 }}>
-            <CardHeader
-              title='ユーザー管理アプリ'
-              titleTypographyProps={{ variant: 'h5', display: 'flex', justifyContent: 'center' }}
-            />
-            <Divider variant='middle' />
-            <CardContent>
-              <Stack spacing={2} py={2} px={4}>
-                <TextField variant='outlined' placeholder='ユーザーID' value={usrId} onChange={onChangeUsrId} />
-                <PrimaryButton disabled={usrId === ''} loading={loading} onClick={onClickLogin}>
-                  ログイン
-                </PrimaryButton>
-              </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
-        {!!snackbar && <ShowMessage snackbar={snackbar} onClose={handleCloseSnackbar} />}
-      </Grid>
+      <LoginCard />
     </>
   )
-})
+}
 
-Login.displayName = 'Login'
+// Login.displayName = 'Login'
 export default Login

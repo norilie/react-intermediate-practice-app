@@ -1,4 +1,5 @@
 'use client'
+
 import React, { ReactNode } from 'react'
 import NextAppDirEmotionCacheProvider from './EmotionCache'
 import { CssBaseline, ThemeProvider } from '@mui/material'

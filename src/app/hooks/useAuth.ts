@@ -1,15 +1,16 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Dispatch, SetStateAction, useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { User } from '../types/api/user'
-import { AlertProps } from '@mui/material'
 import useStore from './useStore'
+import useLoginUser from './useLoginUser'
 
 const useAuth = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const { setSnackbar } = useStore()
+  const { setLoginUser } = useLoginUser()
   const login = useCallback(
     async (id: string) => {
       setLoading(true)
@@ -18,7 +19,8 @@ const useAuth = () => {
         if (!response.ok) {
           setSnackbar('ユーザーが見つかりません', 'error')
         } else {
-          const data: Array<User> = await response.json()
+          const data: User = await response.json()
+          setLoginUser(data, data.id === 10)
           setSnackbar('ログインしました', 'success')
           router.push('/home')
         }
@@ -28,7 +30,7 @@ const useAuth = () => {
         setLoading(false)
       }
     },
-    [router, setSnackbar]
+    [router, setSnackbar, setLoginUser]
   )
   return { login, loading }
 }

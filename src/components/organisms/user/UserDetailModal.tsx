@@ -1,5 +1,7 @@
 import {
+  Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
@@ -30,7 +32,8 @@ const Transition = forwardRef(function Transition(
 const UserDetailModal: FC<Props> = memo(props => {
   const { user, open, onClose: handleClose } = props
   const [inputValue, setInputValue] = useState({
-    username: '', //ここにuseEffectの中身を書けばいい？
+    // ...user,
+    username: '',
     name: '',
     email: '',
     phone: '',
@@ -84,6 +87,7 @@ const UserDetailModal: FC<Props> = memo(props => {
               value={inputValue.name}
               InputProps={{ readOnly: true }}
               size='small'
+              onChange={handleChange}
             />
           </FormControl>
           <FormControl>
@@ -94,6 +98,7 @@ const UserDetailModal: FC<Props> = memo(props => {
               value={inputValue.email}
               InputProps={{ readOnly: true }}
               size='small'
+              onChange={handleChange}
             />
           </FormControl>
           <FormControl>
@@ -104,10 +109,16 @@ const UserDetailModal: FC<Props> = memo(props => {
               value={inputValue.phone}
               InputProps={{ readOnly: true }}
               size='small'
+              onChange={handleChange}
             />
           </FormControl>
         </Stack>
       </DialogContent>
+      <DialogActions>
+        <Button autoFocus onClick={handleClose}>
+          Save changes
+        </Button>
+      </DialogActions>
     </Dialog>
   )
 })

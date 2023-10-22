@@ -15,6 +15,7 @@ import { TransitionProps } from '@mui/material/transitions'
 import { FC, ReactElement, Ref, forwardRef, memo, useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import { User } from '@/app/types/api/user'
+import useLoginUser from '@/app/hooks/useLoginUser'
 
 type Props = {
   user: User | null
@@ -31,8 +32,8 @@ const Transition = forwardRef(function Transition(
 })
 const UserDetailModal: FC<Props> = memo(props => {
   const { user, open, onClose: handleClose } = props
+  const { isAdmin } = useLoginUser()
   const [inputValue, setInputValue] = useState({
-    // ...user,
     username: '',
     name: '',
     email: '',
@@ -74,7 +75,7 @@ const UserDetailModal: FC<Props> = memo(props => {
               name='username'
               variant='outlined'
               value={inputValue.username}
-              InputProps={{ readOnly: true }}
+              InputProps={{ readOnly: !isAdmin }}
               size='small'
               onChange={handleChange}
             />
@@ -85,7 +86,7 @@ const UserDetailModal: FC<Props> = memo(props => {
               name='name'
               variant='outlined'
               value={inputValue.name}
-              InputProps={{ readOnly: true }}
+              InputProps={{ readOnly: !isAdmin }}
               size='small'
               onChange={handleChange}
             />
@@ -96,7 +97,7 @@ const UserDetailModal: FC<Props> = memo(props => {
               name='email'
               variant='outlined'
               value={inputValue.email}
-              InputProps={{ readOnly: true }}
+              InputProps={{ readOnly: !isAdmin }}
               size='small'
               onChange={handleChange}
             />
@@ -107,18 +108,20 @@ const UserDetailModal: FC<Props> = memo(props => {
               name='phone'
               variant='outlined'
               value={inputValue.phone}
-              InputProps={{ readOnly: true }}
+              InputProps={{ readOnly: !isAdmin }}
               size='small'
               onChange={handleChange}
             />
           </FormControl>
         </Stack>
       </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={handleClose}>
-          Save changes
-        </Button>
-      </DialogActions>
+      {isAdmin && (
+        <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            更新
+          </Button>
+        </DialogActions>
+      )}
     </Dialog>
   )
 })

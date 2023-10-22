@@ -5,9 +5,9 @@ import PrimaryButton from '@/components/atoms/PrimaryButton'
 import ShowMessage from '@/components/atoms/ShowMessage'
 import { Card, CardContent, CardHeader, Divider, Stack, TextField } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { ChangeEvent, FC, SyntheticEvent, useState } from 'react'
+import { ChangeEvent, FC, SyntheticEvent, memo, useState } from 'react'
 
-const LoginCard: FC = () => {
+const LoginCard: FC = memo(() => {
   const { login, loading } = useAuth()
   const { snackbar, setSnackbar } = useStore()
   const [usrId, setUsrId] = useState('')
@@ -50,6 +50,6 @@ const LoginCard: FC = () => {
       </Grid>
     </>
   )
-}
-
+})
+LoginCard.displayName = 'LoginCard'
 export default LoginCard
